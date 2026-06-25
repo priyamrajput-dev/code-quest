@@ -1,19 +1,26 @@
-import express from "express";
-import dotenv from "dotenv"
+import express from 'express';
+import { ENV } from './lib/env.js';
+import { connnectDB } from './lib/db.js';
 
 const app = express();
-dotenv.config();
 
-const PORT = process.env.PORT
-console.log(PORT);
 
-app.get("/health", async(req, res)=>{
-    return res.json({
-        success: true,
-        message: "hello from server"
-    })
-})
+app.get('/health', async (req, res) => {
+  return res.json({
+    success: true,
+    message: 'hello from server',
+  });
+});
 
-app.listen(PORT, ()=>{
-    console.log("server is running on port 8080");
-})
+const startServer = async () => {
+  try {
+    await connnectDB();
+    app.listen(ENV.PORT, () => {
+      console.log('Server is running on port:', ENV.PORT);
+    });
+  } catch (error) {
+    console.error('💥 Error Starting the server', error);
+  }
+};
+
+startServer();
