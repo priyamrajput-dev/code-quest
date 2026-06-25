@@ -3,8 +3,6 @@ import { ENV } from './lib/env.js';
 import { connnectDB } from './lib/db.js';
 
 const app = express();
-
-
 app.get('/health', async (req, res) => {
   return res.json({
     success: true,
